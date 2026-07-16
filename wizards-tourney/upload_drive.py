@@ -17,12 +17,19 @@ SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 def main():
     raw = os.environ["Google Drive"]
     data = json.loads(raw)
+    # Cursor sometimes injects a duplicated .apps.googleusercontent.com suffix
+    client_id = data.get("client_id") or ""
+    while client_id.count(".apps.googleusercontent.com") > 1:
+        client_id = client_id.replace(
+            ".apps.googleusercontent.com.apps.googleusercontent.com",
+            ".apps.googleusercontent.com",
+        )
     # authorized_user format from google-auth-oauthlib
     creds = Credentials(
         token=data.get("token"),
         refresh_token=data.get("refresh_token"),
         token_uri=data.get("token_uri", "https://oauth2.googleapis.com/token"),
-        client_id=data.get("client_id"),
+        client_id=client_id,
         client_secret=data.get("client_secret"),
         scopes=data.get("scopes") or SCOPES,
     )
