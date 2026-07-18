@@ -22,6 +22,7 @@ WHITE = (255, 255, 255)
 HAND = (235, 198, 168)
 HAND_EDGE = (175, 130, 100)
 NAIL = (245, 230, 220)
+FORCE = (220, 60, 50)
 
 
 def font(size: int, bold: bool = False):
@@ -51,6 +52,12 @@ def arrow(draw, start, end, color=TEAL, width=4, head=14):
     draw.polygon([end, p1, p2], fill=color)
 
 
+def ball(img, cx, cy, r, ang=0, face=0.0, away=False):
+    render_wiffle_ball(
+        img, cx, cy, r, ang, face_camera=face, holes_away=away, show_seam=True, color="white"
+    )
+
+
 def draw_hand_grip(img, cx, cy, scale=1.0, holes_angle=0, style="two_finger"):
     draw = ImageDraw.Draw(img)
     r = int(84 * scale)
@@ -68,11 +75,10 @@ def draw_hand_grip(img, cx, cy, scale=1.0, holes_angle=0, style="two_finger"):
     draw.ellipse(tbox, fill=HAND, outline=HAND_EDGE, width=2)
     label(draw, (tx, cy + 34 * scale), "thumb", size=14, fill=NAVY, bold=True, anchor="mm")
 
-    face = 0.9 if style == "knuckle" else 0.28
-    render_wiffle_ball(img, cx, cy, r, holes_angle, face_camera=face, show_seam=True)
+    face = 0.85 if style == "knuckle" else 0.2
+    ball(img, cx, cy, r, ang=holes_angle, face=face)
 
     if style == "two_finger":
-        # Fingers on top of seam, nudged toward smooth half so holes stay visible
         smooth = holes_angle + 180
         sx = math.cos(math.radians(smooth))
         sy = -math.sin(math.radians(smooth))
@@ -92,79 +98,105 @@ def draw_hand_grip(img, cx, cy, scale=1.0, holes_angle=0, style="two_finger"):
 
 
 def make_ball_anatomy():
-    img, draw = new_img(960, 560)
+    img, draw = new_img(960, 580)
     label(draw, (480, 28), "Official Wiffle Ball Anatomy", size=28, fill=NAVY, bold=True, anchor="mm")
-    label(draw, (480, 58), "Eight separate oblong holes on ONE half  •  Smooth plastic on the other",
-          size=17, fill=TEAL, anchor="mm")
-    render_wiffle_ball(img, 250, 295, 148, 0, face_camera=1.0)
-    label(draw, (250, 470), "HOLED HALF (face-on)", size=18, fill=NAVY, bold=True, anchor="mm")
-    label(draw, (250, 496), "8 oblong holes — air can enter", size=15, fill=INK, anchor="mm")
-    render_wiffle_ball(img, 710, 295, 148, 0, face_camera=1.0, holes_away=True)
-    label(draw, (710, 470), "SMOOTH HALF (face-on)", size=18, fill=NAVY, bold=True, anchor="mm")
-    label(draw, (710, 496), "No holes — air flows over", size=15, fill=INK, anchor="mm")
+    label(draw, (480, 58), "Eight oblong slots on ONE half — arranged like spokes around the face center",
+          size=16, fill=TEAL, anchor="mm")
+
+    # Face-on hole pole: radial spoke pattern (matches real photos)
+    ball(img, 250, 300, 155, ang=0, face=1.0)
+    label(draw, (250, 480), "HOLED HALF (face-on)", size=18, fill=NAVY, bold=True, anchor="mm")
+    label(draw, (250, 508), "Slots point toward the center", size=15, fill=INK, anchor="mm")
+
+    # Classic 3/4 side view like product photos / PopSci
+    ball(img, 710, 300, 155, ang=200, face=0.12)
+    label(draw, (710, 480), "SIDE VIEW (holes on left)", size=18, fill=NAVY, bold=True, anchor="mm")
+    label(draw, (710, 508), "Smooth half on the right", size=15, fill=INK, anchor="mm")
+
     label(draw, (480, 120), "Seam / equator", size=16, fill=ACCENT, bold=True, anchor="mm")
     label(draw, (480, 145), "(hold fingers here)", size=14, fill=ACCENT, anchor="mm")
-    arrow(draw, (480, 165), (400, 235), ACCENT, width=3, head=12)
-    arrow(draw, (480, 165), (560, 235), ACCENT, width=3, head=12)
+    arrow(draw, (480, 165), (400, 250), ACCENT, width=3, head=12)
+    arrow(draw, (480, 165), (620, 250), ACCENT, width=3, head=12)
     return img
 
 
+def _soft_ellipse(draw, box, fill, outline=None, width=1):
+    draw.ellipse(box, fill=fill, outline=outline, width=width)
+
+
 def make_physics_forces():
-    img, draw = new_img(960, 560)
-    label(draw, (480, 28), "Why the Ball Curves (Beginner Physics)", size=28, fill=NAVY, bold=True, anchor="mm")
-    cx, cy, r = 300, 300, 128
-    render_wiffle_ball(img, cx, cy, r, 180, face_camera=0.2)
-    for y in range(180, 430, 28):
-        arrow(draw, (40, y), (150, y), AIR, width=3, head=10)
-    label(draw, (95, 155), "Oncoming air", size=16, fill=TEAL, bold=True, anchor="mm")
-    label(draw, (cx - 160, cy - 8), "Holes", size=18, fill=NAVY, bold=True, anchor="mm")
-    arrow(draw, (cx - 130, cy), (cx - 85, cy), ACCENT, width=3)
-    lines = [
-        (cy - 80, "1) Outside: holes create"),
-        (cy - 55, "turbulence / uneven drag"),
-        (cy, "2) Inside: air forms"),
-        (cy + 25, "trapped vortices"),
-        (cy + 75, "3) Net force pushes"),
-        (cy + 100, "the ball off a straight line"),
-    ]
-    for y, t in lines:
-        label(draw, (cx + 160, y), t, size=16, fill=INK, anchor="lm")
-    arrow(draw, (cx, cy + r + 8), (cx, cy + r + 65), ACCENT, width=5)
-    label(draw, (cx, cy + r + 88), "Example break direction", size=16, fill=ACCENT, bold=True, anchor="mm")
-    label(draw, (480, 530), "Hole angle + arm slot + release decide WHICH way it breaks.",
-          size=17, fill=NAVY, bold=True, anchor="mm")
+    """PopSci-style flight diagram: airflow, vortices, forces."""
+    img, draw = new_img(960, 620, color=(45, 48, 52))
+    label(draw, (480, 30), "Flight of the Wiffle Ball", size=28, fill=(255, 255, 255), bold=True, anchor="mm")
+    label(draw, (480, 58), "How holes create curve — air outside + vortices inside", size=15, fill=(180, 190, 200), anchor="mm")
+
+    cx, cy, r = 420, 300, 135
+    # Airflow lines from left
+    for i, y in enumerate(range(170, 450, 22)):
+        # bend around ball
+        if abs(y - cy) < r + 10:
+            # skip through ball; draw approach only
+            arrow(draw, (40, y), (cx - r - 18, y), (200, 210, 220), width=2, head=8)
+        else:
+            arrow(draw, (40, y), (cx + r + 80, y + int(0.08 * (y - cy))), (200, 210, 220), width=2, head=8)
+    label(draw, (90, 150), "AIRFLOW", size=14, fill=(220, 230, 240), bold=True, anchor="mm")
+
+    ball(img, cx, cy, r, ang=180, face=0.18)
+
+    # Vortex wisps inside / near holes (left side)
+    for i, (vx, vy, rw, rh) in enumerate([
+        (cx - 40, cy - 30, 50, 28),
+        (cx - 55, cy + 10, 45, 26),
+        (cx - 35, cy + 45, 40, 22),
+    ]):
+        _soft_ellipse(draw, (vx - rw, vy - rh, vx + rw, vy + rh), fill=(255, 255, 255, ))
+        # redraw as semi via light circles
+        draw.arc((vx - rw, vy - rh, vx + rw, vy + rh), 0, 270, fill=(230, 235, 240), width=3)
+        draw.arc((vx - rw // 2, vy - rh // 2, vx + rw // 2, vy + rh // 2), 40, 300, fill=(210, 220, 230), width=2)
+    label(draw, (cx - 90, cy + 95), "VORTICES", size=13, fill=(255, 200, 120), bold=True, anchor="mm")
+
+    # Wake turbulence on right
+    for i in range(6):
+        wx = cx + r + 20 + i * 18
+        wy = cy - 40 + (i % 3) * 30
+        draw.ellipse((wx, wy, wx + 35, wy + 28), outline=(190, 200, 210), width=2)
+
+    # Force arrows (red) like the reference
+    arrow(draw, (cx + 20, cy - r + 10), (cx + 90, cy - r - 40), FORCE, width=5, head=16)
+    label(draw, (cx + 120, cy - r - 50), "EXTERNAL FORCE", size=13, fill=FORCE, bold=True, anchor="mm")
+
+    arrow(draw, (cx - 20, cy + 10), (cx - 110, cy + 70), FORCE, width=5, head=16)
+    label(draw, (cx - 150, cy + 95), "INTERIOR FORCE", size=13, fill=FORCE, bold=True, anchor="mm")
+
+    arrow(draw, (cx - 10, cy - 10), (cx - 100, cy + 20), (255, 140, 60), width=5, head=16)
+    label(draw, (cx - 160, cy + 5), "NET FORCE", size=13, fill=(255, 160, 80), bold=True, anchor="mm")
+
+    arrow(draw, (cx + r + 10, cy - 20), (cx + r + 120, cy - 20), (255, 255, 255), width=5, head=16)
+    label(draw, (cx + r + 70, cy - 45), "BALL'S DIRECTION", size=13, fill=(255, 255, 255), bold=True, anchor="mm")
+
+    label(draw, (480, 580), "Hole orientation sets which way these forces push — you aim the holes, not just the throw.",
+          size=14, fill=(200, 210, 220), bold=True, anchor="mm")
     return img
 
 
 def make_hole_orientations():
     img, draw = new_img(960, 680)
     label(draw, (480, 26), "Hole Orientation Map (Right-Handed Pitcher View)", size=26, fill=NAVY, bold=True, anchor="mm")
-    label(draw, (480, 54), "Each ball shows the hole face clearly — point that face in the arrow direction", size=16, fill=TEAL, anchor="mm")
+    label(draw, (480, 54), "Point the hole face (the spoke pattern) in the direction shown", size=16, fill=TEAL, anchor="mm")
+
     configs = [
-        (170, 200, 90, "HOLES UP", "Straighter / \"get me over\"\n(classic package tip)"),
-        (480, 200, 0, "HOLES RIGHT", "Often away break\n(slider family)"),
-        (790, 200, 180, "HOLES LEFT", "Often in / rise family\n(screw / riser)"),
-        (320, 490, 270, "HOLES DOWN", "Helps riser look\nwith sidearm slot"),
-        (640, 490, 45, "HOLES DIAGONAL", "Mixed break\n(up+away, etc.)"),
+        (170, 210, 90, "HOLES UP", "Straighter / \"get me over\"\n(classic package tip)"),
+        (480, 210, 0, "HOLES RIGHT", "Often away break\n(slider family)"),
+        (790, 210, 180, "HOLES LEFT", "Often in / rise family\n(screw / riser)"),
+        (320, 500, 270, "HOLES DOWN", "Helps riser look\nwith sidearm slot"),
+        (640, 500, 45, "HOLES DIAGONAL", "Mixed break\n(up+away, etc.)"),
     ]
     for x, y, ang, title, desc in configs:
-        # Face-on so all 8 oblong openings are easy to count and recognize
-        render_wiffle_ball(img, x, y, 88, 0, face_camera=1.0)
-        # Direction arrow: where to aim this hole face
-        rad = math.radians(ang)
-        ax, ay = math.cos(rad), -math.sin(rad)  # screen y down
-        arrow(
-            draw,
-            (x + 55 * ax, y + 55 * ay),
-            (x + 105 * ax, y + 105 * ay),
-            ACCENT,
-            width=5,
-            head=14,
-        )
-        label(draw, (x + 118 * ax, y + 118 * ay), "point\nholes", size=12, fill=ACCENT, bold=True, anchor="mm")
-        label(draw, (x, y + 125), title, size=16, fill=NAVY, bold=True, anchor="mm")
+        # 3/4 view: classic product-photo look with slots readable on one side
+        ball(img, x, y, 95, ang=ang, face=0.15)
+        label(draw, (x, y + 120), title, size=16, fill=NAVY, bold=True, anchor="mm")
         for i, line in enumerate(desc.split("\n")):
-            label(draw, (x, y + 150 + i * 18), line, size=14, fill=INK, anchor="mm")
+            label(draw, (x, y + 145 + i * 18), line, size=14, fill=INK, anchor="mm")
     return img
 
 
@@ -232,7 +264,7 @@ def make_throw_path():
             "SIDEARM": (sx + 85, sy + 25),
         }[name]
         draw.line((sx, sy - 10, arm_end), fill=TEAL, width=6)
-        render_wiffle_ball(img, arm_end[0] + 40, arm_end[1], 34, ang, face_camera=0.3)
+        ball(img, arm_end[0] + 40, arm_end[1], 34, ang=ang, face=0.2)
         label(draw, (x, 420), name, size=18, fill=NAVY, bold=True, anchor="mm")
         label(draw, (x, 448), tip, size=14, fill=INK, anchor="mm")
     label(draw, (480, 500), "Cue: pick hole direction → pick arm slot → throw THROUGH the target.",
@@ -247,7 +279,7 @@ def make_new_ball_rules():
     label(draw, (480, 30), "Your Rules Change the Physics", size=28, fill=NAVY, bold=True, anchor="mm")
     draw.rounded_rectangle((40, 80, 450, 470), radius=18, fill=WHITE, outline=TEAL, width=3)
     label(draw, (245, 110), "NEW BALL (Required)", size=20, fill=TEAL, bold=True, anchor="mm")
-    render_wiffle_ball(img, 245, 235, 80, 10, face_camera=0.85)
+    ball(img, 245, 235, 82, ang=200, face=0.2)
     for i, t in enumerate([
         "• Shiny, no scuffs / scratches", "• Holes sharp and uniform",
         "• Movement cleaner but subtler", "• Aim holes carefully",
