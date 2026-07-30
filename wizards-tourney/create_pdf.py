@@ -289,7 +289,7 @@ def build():
             Paragraph("Gates 9:00 AM  •  First Pitch 10:00 AM  •  21+ Event", styles["cover_sub"]),
             Spacer(1, 8),
             Paragraph(
-                "Roster: Tony Kurtanick  •  Brian Hannan  •  Ben Zysek  •  Jose Gonzalez  •  Jakob Lafirst",
+                "Roster: Tony Kurtanick  •  Brian Hannan  •  Ben Zysek  •  Jose Gonzalez  •  Jakob Lafirst  •  Cam Dupe",
                 ParagraphStyle("roster_c", fontName="Helvetica", fontSize=9, textColor=SOFT_GOLD, alignment=TA_CENTER, leading=12),
             ),
         ]],
@@ -303,7 +303,7 @@ def build():
         [Paragraph("Gates 9:00 AM  •  First Pitch 10:00 AM  •  21+ Event", styles["cover_sub"])],
         [Spacer(1, 6)],
         [Paragraph(
-            "Tony Kurtanick  •  Brian Hannan  •  Ben Zysek  •  Jose Gonzalez  •  Jakob Lafirst",
+            "Tony Kurtanick  •  Brian Hannan  •  Ben Zysek  •  Jose Gonzalez  •  Jakob Lafirst  •  Cam Dupe",
             ParagraphStyle("rc", fontName="Helvetica", fontSize=9, textColor=SOFT_GOLD, alignment=TA_CENTER, leading=12),
         )],
     ]
