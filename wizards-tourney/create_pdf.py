@@ -17,6 +17,15 @@ from reportlab.platypus import (
     TableStyle,
 )
 
+from manager_info import (
+    BROADCAST,
+    CAFE,
+    CHECK_IN,
+    FIELDS,
+    MANAGER_CHECKLIST,
+    REMINDERS,
+    WEATHER,
+)
 from plw_season6_rules import SECTIONS as RULE_SECTIONS
 from strategy_tips import (
     DEFENSE,
@@ -247,26 +256,48 @@ def build():
     story.append(ft)
     story.append(Spacer(1, 6))
     story.append(Paragraph(
-        "Sources: premierleaguewiffle.com tournament page, Official Rule Book (Season 6), "
-        "Basic Rules, Player Code of Conduct, and your pool/schedule sheets.",
+        "Sources: PLW Tournament Manager Information (Updated), premierleaguewiffle.com, "
+        "Official Rule Book (Season 6), Basic Rules, Code of Conduct, pool/schedule sheets.",
         styles["small"],
     ))
 
     story.append(Spacer(1, 8))
-    story.append(section_bar("2. WIZARDS OF WIFFS — YOUR POOL GAMES"))
+    story.append(section_bar("2. MANAGER INFO — CHECK-IN, FIELDS, WEATHER, CAFE"))
+    story.append(Spacer(1, 5))
+    story.append(gold_callout(
+        "CHECK IN at First Pitch Cafe (Green Building by RF) — Thu/Fri 5–7 PM or Sat 8:30–10:30 AM. Bring ID.",
+        styles,
+    ))
+    story.append(Paragraph("Player check-in", styles["h2"]))
+    story.extend(bullets(CHECK_IN, styles["bullet"]))
+    story.append(Paragraph("Field locations & conditions", styles["h2"]))
+    story.extend(bullets(FIELDS, styles["bullet"]))
+    story.append(Paragraph("Weather & rain plan", styles["h2"]))
+    story.extend(bullets(WEATHER, styles["bullet"]))
+    story.append(Paragraph("First Pitch Cafe (Green Building)", styles["h2"]))
+    story.extend(bullets(CAFE, styles["bullet"]))
+    story.append(Paragraph("Streamed / featured games", styles["h2"]))
+    story.extend(bullets(BROADCAST, styles["bullet"]))
+    story.append(Paragraph("Important reminders", styles["h2"]))
+    story.extend(bullets(REMINDERS, styles["bullet"]))
+    story.append(Paragraph("Manager checklist", styles["h2"]))
+    story.extend(bullets(MANAGER_CHECKLIST, styles["bullet"]))
+
+    story.append(PageBreak())
+    story.append(section_bar("3. WIZARDS OF WIFFS — YOUR POOL GAMES"))
     story.append(Spacer(1, 5))
     story.append(Paragraph(
-        "You play every field once. Arrive early for check-in and warmups. Gates open 9:00 AM.",
+        "You play every field once. Check in Sat morning (or Thu/Fri). Gates open 9:00 AM; first pitch 10:00 AM.",
         styles["body"],
     ))
     story.append(styled_table(
         ["Round", "Time", "Opponent", "Field"],
         [
-            ["Round 1", "10:00 AM", "vs Savages", "Grass Field 2"],
-            ["Round 4", "1:00 PM", "vs Sandvipers", "Grass Field 1"],
-            ["Round 6", "3:00 PM", "vs Cloud Seeders", "Main Turf Field"],
+            ["Round 1", "10:00 AM", "vs Savages", "Field 2 (Grass 2)"],
+            ["Round 4", "1:00 PM", "vs Sandvipers", "Field 1 (Grass 1)"],
+            ["Round 6", "3:00 PM", "vs Cloud Seeders", "Field 3 (Main Turf)"],
         ],
-        [1.3 * inch, 1.3 * inch, 2.2 * inch, 2.2 * inch],
+        [1.2 * inch, 1.2 * inch, 2.0 * inch, 2.6 * inch],
         highlight_rows={0, 1, 2},
     ))
     story.append(Spacer(1, 5))
@@ -276,7 +307,7 @@ def build():
     ))
 
     story.append(Spacer(1, 8))
-    story.append(section_bar("3. FULL POOL PLAY SCHEDULE"))
+    story.append(section_bar("4. FULL POOL PLAY SCHEDULE"))
     story.append(Spacer(1, 5))
     story.append(styled_table(
         ["Pool", "Teams"],
@@ -332,8 +363,14 @@ def build():
     sched.setStyle(TableStyle(cmds))
     story.append(sched)
 
+    story.append(Spacer(1, 4))
+    story.append(Paragraph(
+        "Headers map to manager fields: Main Turf = Field 3 • Grass Field 1 = Field 1 • Grass Field 2 = Field 2.",
+        styles["small"],
+    ))
+
     story.append(Spacer(1, 8))
-    story.append(section_bar("4. FORMAT, TIEBREAKERS & PLAYOFFS"))
+    story.append(section_bar("5. FORMAT, TIEBREAKERS & PLAYOFFS"))
     story.append(Spacer(1, 5))
     story.append(Paragraph(
         "3 pools of 4. Each pool winner advances. 4th playoff spot = <b>Wildcard</b> via Swing-Off. "
@@ -362,7 +399,7 @@ def build():
 
     # ===== FULL SEASON 6 RULES =====
     story.append(PageBreak())
-    story.append(section_bar("5. COMPLETE PLW SEASON 6 RULE BOOK (CHEAT SHEET)"))
+    story.append(section_bar("6. COMPLETE PLW SEASON 6 RULE BOOK (CHEAT SHEET)"))
     story.append(Spacer(1, 5))
     story.append(Paragraph(
         "Full coverage of every rule from "
@@ -376,7 +413,7 @@ def build():
         story.extend(bullets(items, styles["bullet"]))
 
     story.append(Spacer(1, 8))
-    story.append(section_bar("6. CODE OF CONDUCT (DON'T GET TOSSED)"))
+    story.append(section_bar("7. CODE OF CONDUCT (DON'T GET TOSSED)"))
     story.append(Spacer(1, 5))
     story.extend(bullets([
         "Respect players, umpires, staff, fans, and the ranch property. Clean dugouts.",
@@ -388,7 +425,7 @@ def build():
     ], styles["bullet"]))
 
     story.append(PageBreak())
-    story.append(section_bar("7. UNDERDOG TIPS & TRICKS — STEAL GAMES FROM BETTER TEAMS"))
+    story.append(section_bar("8. UNDERDOG TIPS & TRICKS — STEAL GAMES FROM BETTER TEAMS"))
     story.append(Spacer(1, 5))
     story.append(Paragraph(INTRO, styles["body"]))
     story.append(Paragraph("A. Pitching game plan", styles["h2"]))
@@ -405,22 +442,25 @@ def build():
     story.append(gold_callout(SCRIPT, styles))
 
     story.append(Spacer(1, 8))
-    story.append(section_bar("8. GAME-DAY CHECKLIST"))
+    story.append(section_bar("9. GAME-DAY CHECKLIST"))
     story.append(Spacer(1, 5))
     cols = Table([[
         Paragraph(
-            "<b>Gear</b><br/>• Official yellow Wiffle bats (taped legal)<br/>"
+            "<b>Check-in &amp; gear</b><br/>"
+            "• Valid ID + waivers + film release + profile photo<br/>"
+            "• Official yellow Wiffle bats (taped legal)<br/>"
             "• Turf shoes / sneakers (no cleats)<br/>"
-            "• Matching jerseys / team shirts<br/>"
+            "• Matching jerseys (helps for streamed games)<br/>"
             "• Barehand warmup ball",
             styles["tip"],
         ),
         Paragraph(
-            "<b>Body &amp; camp</b><br/>• Water + electrolytes<br/>"
-            "• Snacks / lunch for a full day<br/>"
-            "• Chairs + canopy/shade<br/>"
+            "<b>Body &amp; camp</b><br/>"
+            "• Water + electrolytes (Cafe also has water/snacks)<br/>"
+            "• Chairs + canopy/shade (storms possible)<br/>"
             "• Sunscreen, towels<br/>"
-            "• Arrive by ~9:00–9:15",
+            "• Thu/Fri check-in 5–7 PM <b>or</b> Sat 8:30 AM<br/>"
+            "• No kids • No pets • No visible alcohol on stream",
             styles["tip"],
         ),
     ]], colWidths=[3.5 * inch, 3.5 * inch])
@@ -436,13 +476,14 @@ def build():
     story.append(cols)
 
     story.append(Spacer(1, 8))
-    story.append(section_bar("9. LINKS"))
+    story.append(section_bar("10. LINKS"))
     story.append(Spacer(1, 5))
     story.extend(bullets([
         "Full rule book: https://premierleaguewiffle.com/rules/",
         "Basic rules: https://premierleaguewiffle.com/basic-rules/",
         "Tournament page: https://premierleaguewiffle.com/2026/07/01/august-1st-tourney-sign-ups-open/",
         "Code of conduct: https://premierleaguewiffle.com/player-code-of-conduct/",
+        "Volunteer (cameras / scorekeeping / umpiring): Adam Tanic or Tom Gannon",
     ], styles["bullet"]))
     story.append(Spacer(1, 10))
     story.append(Paragraph(
@@ -453,8 +494,8 @@ def build():
         ),
     ))
     story.append(Paragraph(
-        "Compiled from official PLW Season 6 rules + provided schedule/pool sheets. "
-        "On-site umpires / PLW updates control final interpretation.",
+        "Compiled from PLW Tournament Manager Information (Updated), Season 6 rules, "
+        "and provided schedule/pool sheets. On-site umpires / PLW updates control final interpretation.",
         styles["small"],
     ))
 
