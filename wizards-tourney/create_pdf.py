@@ -489,13 +489,16 @@ def build():
         "Cheap/front foul line between 1B and 3B — behind it (toward plate) is foul.",
     ], styles["bullet"]))
 
-    story.append(Paragraph("Pitching (huge leverage for underdogs)", styles["h2"]))
+    story.append(Paragraph("Pitching (huge leverage for underdogs) — Rules 3.05–3.09", styles["h2"]))
     story.extend(bullets([
         "Any speed allowed — but a <b>called strike</b> must read <b>≤55 mph</b> on radar AND hit the K-zone in the air.",
-        "Back foot stays on rubber until release; front foot must land on pitching mat.",
+        "Back foot stays on rubber until release; front foot must land on pitching mat. No pump fakes / fluid delivery only.",
+        "Illegal pitch progression <b>(3.05, per pitcher per series)</b>: 1st = warning/no-pitch → 2nd = automatic ball → additional = automatic walk (counts toward walk total).",
         "HBP = ball (unless hands-on-bat, or face ≥65 mph). HBP counts toward walk total.",
-        "<b>Walk 2 batters → pitcher is done for that game</b> (last eligible pitcher has no walk limit).",
-        "Illegal pitch progression (per pitcher per series): warn/no-pitch → automatic ball → automatic walk.",
+        "<b>3.06 — Walk 2 batters → pitcher is ineligible for the rest of that game.</b> The <b>last eligible pitcher</b> on a team has <b>no walk limit</b>.",
+        "<b>3.07 — In a 3-game series, a different pitcher must start each game.</b> Plan 3 starters (you have 3 pool games).",
+        "<b>3.08 — In a 3-game series, a pitcher may appear (throw a pitch) in up to 9 innings total.</b> A pitch in a 10th inning: all outs become walks; if the inning completes → forfeit.",
+        "<b>3.09 — Exception:</b> if a pitcher starts a game with 0 IP and throws every pitch in that game, they may continue past the 9th until they walk 2 batters.",
         "Pitchers must face ≥3 batters (or finish inning) when entering — MLB-style appendix rule.",
         "No white/gray/distracting sleeves for pitchers. No quick-pitch (auto ball).",
     ], styles["bullet"]))
@@ -555,7 +558,7 @@ def build():
     story.extend(bullets([
         "<b>Live under 55 mph with movement.</b> Called strikes only count ≤55 into the K-zone. Practice a repeatable under-55 strike and a harder “looks like a strike” ball that charts over 55 (reads as ball even if it hits the zone).",
         "<b>Attack the zone early.</b> Batters start 0–1. Get ahead; make them chase. Don't nibble yourself into walks.",
-        "<b>Protect the 2-walk limit.</b> Two free passes = pitcher scratched. If you're close to walk #2, change the plan: challenge the zone rather than dance around it. Know who your emergency last pitcher is (no walk limit).",
+        "<b>Protect your 2-walk limit (3.06).</b> Two free passes = that pitcher is scratched for the game. Near walk #2: challenge the zone. Pre-assign your emergency <b>last eligible pitcher</b> (no walk limit) before first pitch.",
         "<b>Footwork legality.</b> Back foot on rubber, front foot on mat. Illegal pitches escalate to free bases — don't gift better teams walks.",
         "<b>Mix locations / speeds / spin.</b> Experienced hitters crush predictable yellow-ball heaters. Change eye levels and timing every at-bat.",
         "<b>Use intentional walks wisely</b> (no pitches required). Walk the middle-of-order killer to face a weaker bat — but remember walks count and can burn your pitcher.",
@@ -573,6 +576,8 @@ def build():
 
     story.append(Paragraph("C. Offense against better pitching", styles["h2"]))
     story.extend(bullets([
+        "<b>Hunt walks to burn their ace (Rule 3.06).</b> Two walks and their best pitcher is DONE for the game. Be patient — take borderline pitches. HBP counts as a walk toward their limit. Force them onto a worse arm; that is how underdogs steal games.",
+        "<b>Track their pitcher usage across the day (3.07–3.09).</b> Different starter each game; 9-inning appearance cap in a 3-game series. If their stud already ate innings, attack the backup later.",
         "<b>Start every AB down 0–1 — shorten up.</b> Put the ball in play. Whiffing looking for a perfect pitch plays into good pitchers.",
         "<b>Aim for doubles/triples geometry.</b> Balls that bounce before the wall = doubles; air to the wall = triples. Line drives into gaps beat pop-ups to short OF.",
         "<b>Don't gift outs on the cheap line.</b> Choppers that die in front of the bases are outs/fouls — swing with intent to get it past the infield line.",
