@@ -8,14 +8,7 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
-from reportlab.platypus import (
-    PageBreak,
-    Paragraph,
-    SimpleDocTemplate,
-    Spacer,
-    Table,
-    TableStyle,
-)
+from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 from manager_info import (
     BROADCAST,
@@ -54,7 +47,6 @@ ROSTER = (
     "Tony Kurtanick  •  Brian Hannan  •  Ben Zysek  •  "
     "Jose Gonzalez  •  Jakob Lafirst  •  Cam Dupe"
 )
-
 
 def make_styles():
     base = getSampleStyleSheet()
@@ -96,10 +88,8 @@ def make_styles():
         ),
     }
 
-
 def bullets(items, style):
     return [Paragraph(f"• {item}", style) for item in items]
-
 
 def section_bar(title):
     data = [[Paragraph(title, ParagraphStyle(
@@ -116,7 +106,6 @@ def section_bar(title):
     ]))
     return t
 
-
 def gold_callout(text, styles):
     t = Table([[Paragraph(text, styles["callout"])]], colWidths=[7.0 * inch])
     t.setStyle(TableStyle([
@@ -128,7 +117,6 @@ def gold_callout(text, styles):
         ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
     ]))
     return t
-
 
 def styled_table(headers, rows, col_widths, highlight_rows=None):
     highlight_rows = highlight_rows or set()
@@ -165,7 +153,6 @@ def styled_table(headers, rows, col_widths, highlight_rows=None):
     t.setStyle(TableStyle(cmds))
     return t
 
-
 def add_page_decor(canvas, doc):
     canvas.saveState()
     canvas.setStrokeColor(GOLD)
@@ -183,7 +170,6 @@ def add_page_decor(canvas, doc):
     canvas.setFont("Helvetica", 8)
     canvas.drawRightString(letter[0] - 0.6 * inch, letter[1] - 0.38 * inch, f"Page {doc.page}")
     canvas.restoreState()
-
 
 def build():
     styles = make_styles()
@@ -282,12 +268,11 @@ def build():
     story.extend(bullets(REMINDERS, styles["bullet"]))
     story.append(Paragraph("Manager checklist", styles["h2"]))
     story.extend(bullets(MANAGER_CHECKLIST, styles["bullet"]))
-
     story.append(PageBreak())
     story.append(section_bar("3. WIZARDS OF WIFFS — YOUR POOL GAMES"))
     story.append(Spacer(1, 5))
     story.append(Paragraph(
-        "You play every field once. Check in Sat morning (or Thu/Fri). Gates open 9:00 AM; first pitch 10:00 AM.",
+        "You play every field once. Check in Sat morning (or Thu/Fri). Gates 9:00 AM; first pitch 10:00 AM.",
         styles["body"],
     ))
     story.append(styled_table(
@@ -502,7 +487,6 @@ def build():
     doc.build(story, onFirstPage=add_page_decor, onLaterPages=add_page_decor)
     print(f"Wrote {OUT} ({OUT.stat().st_size} bytes)")
     return OUT
-
 
 if __name__ == "__main__":
     build()
