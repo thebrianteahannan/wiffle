@@ -1,0 +1,75 @@
+name: PLW ntfy notifications
+
+on:
+  schedule:
+    # Every 5 minutes — catch Twitch going live + new site posts.
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run mode"
+        required: true
+        default: check
+        type: choice
+        options:
+          - check
+          - seed
+          - test
+
+permissions:
+  contents: write
+
+concurrency:
+  group: plw-notify
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run PLW notifier
+        env:
+          NTFY_TOPIC: WiffleBall
+          NTFY_SERVER: https://ntfy.sh
+          NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
+          TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+          TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          MODE="${{ github.event.inputs.mode || 'check' }}"
+          case "$MODE" in
+            test) python3 scripts/plw_notify.py --test ;;
+            seed) python3 scripts/plw_notify.py --seed ;;
+            *)    python3 scripts/plw_notify.py ;;
+          esac
+
+      - name: Persist notify state
+        if: ${{ github.event.inputs.mode != 'test' }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/data/plw_notify_state.json
+          if git diff --staged --quiet; then
+            echo "No state changes to commit"
+            exit 0
+          fi
+          git commit -m "chore: update PLW notify state"
+          for i in 1 2 3; do
+            if git push origin HEAD:"${GITHUB_REF_NAME}"; then
+              exit 0
+            fi
+            git pull --rebase origin "${GITHUB_REF_NAME}" || true
+            sleep $((i * 2))
+          done
+          git push origin HEAD:"${GITHUB_REF_NAME}"
