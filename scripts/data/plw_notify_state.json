@@ -1,5 +1,5 @@
 {
-  "last_run": "2026-08-10T20:06:49Z",
+  "last_run": "2026-08-10T22:19:30Z",
   "seeded": true,
   "seen_post_ids": [
     "https://premierleaguewiffle.com/?p=2864",
@@ -13,6 +13,6 @@
     "https://premierleaguewiffle.com/?p=2743",
     "https://premierleaguewiffle.com/?p=2668"
   ],
-  "twitch_live": false,
-  "twitch_title": "OPENING NIGHT - Reapers vs Savages"
+  "twitch_live": true,
+  "twitch_title": "Reapers vs Savages"
 }
