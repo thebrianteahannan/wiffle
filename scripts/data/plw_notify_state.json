@@ -1,5 +1,5 @@
 {
-  "last_run": "2026-08-31T22:51:30Z",
+  "last_run": "2026-09-01T01:35:17Z",
   "seeded": true,
   "seen_post_ids": [
     "https://premierleaguewiffle.com/?p=2876",
@@ -14,6 +14,6 @@
     "https://premierleaguewiffle.com/?p=2743",
     "https://premierleaguewiffle.com/?p=2668"
   ],
-  "twitch_live": true,
-  "twitch_title": "Reapers (7-13) vs Step Above (10-5) - Season 0"
+  "twitch_live": false,
+  "twitch_title": "Reapers (7-15) vs Step Above (12-5) - Season 0"
 }
