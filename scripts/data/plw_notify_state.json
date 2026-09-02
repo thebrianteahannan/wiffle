@@ -1,5 +1,5 @@
 {
-  "last_run": "2026-09-02T19:55:36Z",
+  "last_run": "2026-09-02T22:30:45Z",
   "seeded": true,
   "seen_post_ids": [
     "https://premierleaguewiffle.com/?p=2876",
@@ -14,6 +14,6 @@
     "https://premierleaguewiffle.com/?p=2743",
     "https://premierleaguewiffle.com/?p=2668"
   ],
-  "twitch_live": false,
-  "twitch_title": "Dem Bois (4-5) vs Sandvipers (10-3) - Season 0"
+  "twitch_live": true,
+  "twitch_title": "Blitz (12-2) vs Reapers (7-16) - Season 0"
 }
