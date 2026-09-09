@@ -1,5 +1,5 @@
 {
-  "last_run": "2026-09-09T19:16:39Z",
+  "last_run": "2026-09-09T23:33:14Z",
   "seeded": true,
   "seen_post_ids": [
     "https://premierleaguewiffle.com/?p=2919",
@@ -16,6 +16,6 @@
     "https://premierleaguewiffle.com/?p=2668",
     "https://premierleaguewiffle.com/?p=2743"
   ],
-  "twitch_live": false,
-  "twitch_title": "Dem Bois (10-7) vs Wizards (0-5) - Game 3 of 3.  Season 0"
+  "twitch_live": true,
+  "twitch_title": "Flamingos (9-15) vs Smugglers (13-5) - Game 1 of 3.  Season 0"
 }
