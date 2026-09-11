@@ -1,5 +1,5 @@
 {
-  "last_run": "2026-09-11T21:13:33Z",
+  "last_run": "2026-09-11T23:20:40Z",
   "seeded": true,
   "seen_post_ids": [
     "https://premierleaguewiffle.com/?p=2919",
@@ -16,6 +16,6 @@
     "https://premierleaguewiffle.com/?p=2743",
     "https://premierleaguewiffle.com/?p=2876"
   ],
-  "twitch_live": false,
-  "twitch_title": "Smugglers (14-6) vs Sandvipers (12-4) - Game 1 of 3.  Season 0"
+  "twitch_live": true,
+  "twitch_title": "Savages (4-11) vs Flamingos (10-16) - Game 1 of 3.  Season 0"
 }
