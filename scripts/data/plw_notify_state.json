@@ -1,5 +1,5 @@
 {
-  "last_run": "2026-09-17T00:38:48Z",
+  "last_run": "2026-09-17T05:27:11Z",
   "seeded": true,
   "seen_post_ids": [
     "https://premierleaguewiffle.com/?p=2919",
@@ -16,6 +16,6 @@
     "https://premierleaguewiffle.com/?p=2853",
     "https://premierleaguewiffle.com/?p=2668"
   ],
-  "twitch_live": true,
-  "twitch_title": "429: Too Many Requests - You were going so fast that you traveled back in time (You have made too many requests. Please try again later.) - Users: [{\"login\":[\"premierwiffle\"]}]"
+  "twitch_live": false,
+  "twitch_title": "Flamingos (15-16) vs Smugglers  (15-10) Game 2 of 3.  Season 0"
 }
