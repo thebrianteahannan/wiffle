@@ -1,5 +1,5 @@
 {
-  "last_run": "2026-09-18T00:17:17Z",
+  "last_run": "2026-09-18T04:54:23Z",
   "seeded": true,
   "seen_post_ids": [
     "https://premierleaguewiffle.com/?p=2919",
@@ -16,6 +16,6 @@
     "https://premierleaguewiffle.com/?p=2876",
     "https://premierleaguewiffle.com/?p=2668"
   ],
-  "twitch_live": true,
+  "twitch_live": false,
   "twitch_title": "Gunslingers (12-9) vs Smugglers (15-11) 1 of 3.  Season 0"
 }
