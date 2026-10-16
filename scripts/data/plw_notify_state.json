@@ -1,5 +1,5 @@
 {
-  "last_run": "2026-10-16T20:59:44Z",
+  "last_run": "2026-10-16T23:29:41Z",
   "seeded": true,
   "seen_post_ids": [
     "https://premierleaguewiffle.com/?p=3013",
@@ -14,9 +14,9 @@
     "https://premierleaguewiffle.com/?p=2781",
     "https://premierleaguewiffle.com/?p=2668",
     "https://premierleaguewiffle.com/?p=2743",
-    "https://premierleaguewiffle.com/?p=2853",
-    "https://premierleaguewiffle.com/?p=2876"
+    "https://premierleaguewiffle.com/?p=2876",
+    "https://premierleaguewiffle.com/?p=2853"
   ],
-  "twitch_live": false,
-  "twitch_title": "Smugglers (22-20) vs Leviathans (3-5) Game 3 of 3 - Season 0"
+  "twitch_live": true,
+  "twitch_title": "Komodos (0-3) vs Pufferfish (0-0) Game 1 of 3 - Season 0"
 }
